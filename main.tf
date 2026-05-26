@@ -105,6 +105,8 @@ locals {
   # Roles to be created
   complement_roles = [for role in local.cs_roles : role if contains(local.complement_names, role.name)]
 
+  terway_disabled = try(one([for a in var.ack_cluster.addons : a.disabled if a.name == "terway-eniip"]), false)
+
   # ROS Stack parameters with cluster_id default value
   ros_stack_parameters = var.ros_stack.parameters != null ? var.ros_stack.parameters : [
     {
@@ -151,7 +153,8 @@ resource "alicloud_cs_managed_kubernetes" "ack" {
   name                 = var.ack_cluster.name
   cluster_spec         = var.ack_cluster.cluster_spec
   vswitch_ids          = [for vswitch in alicloud_vswitch.vswitches : vswitch.id]
-  pod_vswitch_ids      = [for vswitch in alicloud_vswitch.vswitches : vswitch.id]
+  pod_vswitch_ids      = local.terway_disabled ? null : [for vswitch in alicloud_vswitch.vswitches : vswitch.id]
+  pod_cidr             = local.terway_disabled ? var.ack_cluster.pod_cidr : null
   service_cidr         = var.ack_cluster.service_cidr
   new_nat_gateway      = var.ack_cluster.new_nat_gateway
   slb_internet_enabled = var.ack_cluster.slb_internet_enabled

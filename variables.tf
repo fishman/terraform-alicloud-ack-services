@@ -54,6 +54,7 @@ variable "ack_cluster" {
     name                 = string
     cluster_spec         = string
     service_cidr         = string
+    pod_cidr             = optional(string)
     new_nat_gateway      = bool
     slb_internet_enabled = bool
     addons = list(object({
