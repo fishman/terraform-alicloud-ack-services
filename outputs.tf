@@ -65,12 +65,12 @@ output "node_pool_scaling_group_id" {
 
 output "ros_stack_id" {
   description = "The ID of the ROS stack"
-  value       = alicloud_ros_stack.deploy_k8s_resource.id
+  value       = var.enable_ros ? alicloud_ros_stack.deploy_k8s_resource[0].id : null
 }
 
 output "ros_stack_status" {
   description = "The status of the ROS stack"
-  value       = alicloud_ros_stack.deploy_k8s_resource.status
+  value       = var.enable_ros ? alicloud_ros_stack.deploy_k8s_resource[0].status : null
 }
 
 output "created_ram_roles" {

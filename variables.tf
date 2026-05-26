@@ -171,6 +171,12 @@ variable "node_pool" {
   }
 }
 
+variable "enable_ros" {
+  type        = bool
+  description = "Whether to create the ROS stack for deploying K8s resources. Set to false to skip ROS stack creation."
+  default     = true
+}
+
 variable "ros_stack" {
   type = object({
     name             = string

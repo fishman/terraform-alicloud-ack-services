@@ -191,6 +191,8 @@ resource "alicloud_cs_kubernetes_node_pool" "node_pool" {
 
 # Create ROS Stack for K8s Resources
 resource "alicloud_ros_stack" "deploy_k8s_resource" {
+  count = var.enable_ros ? 1 : 0
+
   stack_name   = var.ros_stack.name
   template_url = var.ros_stack.template_url
 
